@@ -9,7 +9,6 @@ video_link="rtsp://admin:xsight@123@10.16.10.222:554/Streaming/Channels/001"
 
 
 
-
 def open_image(img_path):
     cascPath_1 = "/usr/local/lib/python3.7/site-packages/cv2/data/haarcascade_frontalface_default.xml"
     cascPath_2 = "/usr/local/lib/python3.7/site-packages/cv2/data/haarcascade_eye.xml"

@@ -1,32 +1,20 @@
 import sys,os,json
 from flask import Flask, render_template, request, redirect, url_for, session, current_app, Response
-import requests
+
 from werkzeug.utils import secure_filename
-camera_link="rtsp://admin:xsight@123@10.16.10.222:554/Streaming/Channels/001"
-from camera import VideoCamera
+
 app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('index.html',title="AAAAA")
 
-def gen(camera):
-
-
-
-    while True:
-        frame = camera.get_frame()
-        yield (b'--frame\r\n'
-               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
-
-@app.route('/video_feed')
-def video_feed():
-
-    return Response(gen(VideoCamera()),
-                    mimetype='multipart/x-mixed-replace; boundary=frame')
-
-
-
-
-if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=8000)
+@app.route('/upload',methods=['POST','GET'])
+def upload_img():
+    if request.method == 'POST':
+        input_image = request.files['file']
+        basepath = os.path.dirname(__file__)
+        upload_path = os.path.join(basepath, 'static',secure_filename(input_image.filename))
+        input_image.save(upload_path)
+        return redirect(url_for('list_uploaded_files'))
+    return render_template('upload_image.html')
