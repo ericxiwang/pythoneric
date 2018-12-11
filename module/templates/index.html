@@ -1,15 +1,5 @@
-<!DOCTYPE html>
-<title>{{title}}</title>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title> {{title}}</title>
-    <link rel="stylesheet" href="../static/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../static/css/index.css">
-    <script src="../static/js/jquery.js"></script>
-    <script src="../static/js/bootstrap.min.js"></script>
-</head>
-<body>
+{% extends "layout.html" %}
+{% block index %}
 <div class='col-md-9 col-lg-9 panel panel-danger product_list' style='float:right;padding-top:15px;'>
 <script src="../static/js/validator.min.js"></script>
 <form action='/user_login' method='POST' class='form-horizontal' role='form' data-toggle='validator'>
@@ -45,3 +35,4 @@
 
 </body>
 </html>
+{% endblock %}
