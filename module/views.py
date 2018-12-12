@@ -17,18 +17,21 @@ def index():
 @app.route('/upload',methods=['POST','GET'])
 def upload_img():
     if request.method == 'POST':
-        input_image = request.files['file']
+        input_image = request.files.getlist('file[]')
         basepath = os.path.dirname(__file__)
-        input_image.filename = str(uuid.uuid1()) + ".jpg"
-        upload_path = os.path.join(basepath, 'static',secure_filename(input_image.filename))
-        input_image.save(upload_path)
+
+        for each_image in input_image:
+            each_image.filename = str(uuid.uuid1()) + ".jpg"
+            upload_path = os.path.join(basepath, 'static',secure_filename(each_image.filename))
+            each_image.save(upload_path)
         return redirect(url_for('list_uploaded_files'))
     return render_template('upload_image.html')
 
 @app.route('/show_user')
 def show_user():
-    all_users = db.session.query(USER_INFO.id).all()
+    all_users = db.session.query(USER_INFO.email).all()
+    all_album = db.session.query(IMAGE_ALBUM.album_name).all()
     print(all_users)
     for i in all_users:
         print(i)
-    return render_template('list_user.html',users = all_users)
+    return render_template('list_user.html',users = all_users,album = all_album)
